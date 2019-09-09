@@ -1,0 +1,35 @@
+version: "3.1"
+services:
+  reverseproxy:
+    image: nginx:1.14-alpine
+    container_name: reverseproxy
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginxconf:/etc/nginx/
+    secrets:
+      - irdbb-fullchain.pem
+      - irdbb-privkey.pem
+      - kheops-fullchain.pem
+      - kheops-privkey.pem
+    networks:
+      - default
+      - kheops
+
+secrets:
+  irdbb-fullchain.pem:
+    file: cert/fullchain4.pem
+  irdbb-privkey.pem:
+    file: cert/privkey4.pem
+  kheops-fullchain.pem:
+    file: cert/fullchain1.pem
+  kheops-privkey.pem:
+    file: cert/privkey1.pem
+
+networks:
+  default:
+    external:
+      name: medirad
+  kheops:
+    external:
+      name: kheops_reverseproxy_network
