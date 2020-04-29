@@ -5,6 +5,7 @@ services:
     container_name: reverseproxy
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - ./nginxconf:/etc/nginx/
     secrets:
